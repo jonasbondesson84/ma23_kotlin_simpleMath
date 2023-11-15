@@ -15,6 +15,8 @@ class gameActivity : AppCompatActivity() {
     lateinit var btnSecondAnswer: Button
     lateinit var btnThirdAnswer: Button
     lateinit var btnFourthAnswer: Button
+    lateinit var tvNumbers: TextView
+    lateinit var btnBack: Button
 
     var userAnswer: Int = 0
     var correctAnswer: Int = 0
@@ -31,16 +33,29 @@ class gameActivity : AppCompatActivity() {
         btnSecondAnswer = findViewById(R.id.btnSecond)
         btnThirdAnswer = findViewById(R.id.btnThird)
         btnFourthAnswer = findViewById(R.id.btnFourth)
+        tvNumbers = findViewById(R.id.tvNumber)
+        btnBack = findViewById(R.id.btnBack)
+
         method = intent.getStringExtra("method") ?: "addition"
 
         btnStart.setOnClickListener() {
             startGame()
 
         }
+
+        btnBack.setOnClickListener() {
+            finish()
+        }
+
+
+    }
+    override fun onResume() {
+        super.onResume()
+        hideAddGameElements()
     }
 
     fun startGame() {
-        btnStart.visibility = View.INVISIBLE
+        showAllGameElements()
         object : CountDownTimer(30000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
@@ -61,18 +76,31 @@ class gameActivity : AppCompatActivity() {
 
     fun stopGame() {
         btnStart.text = "Play again"
-        btnStart.visibility = View.VISIBLE
+        hideAddGameElements()
 
 
     }
 
-    fun hideAdd() {
+    fun hideAddGameElements() {
+        btnStart.visibility = View.VISIBLE
+        btnBack.visibility = View.VISIBLE
         btnFirstAnswer.visibility = View.INVISIBLE
         btnSecondAnswer.visibility = View.INVISIBLE
         btnThirdAnswer.visibility = View.INVISIBLE
         btnFourthAnswer.visibility = View.INVISIBLE
+        tvNumbers.visibility = View.INVISIBLE
+        tvTimer.visibility = View.INVISIBLE
+
     }
-    fun showAll() {
+    fun showAllGameElements() {
+        btnStart.visibility = View.INVISIBLE
+        btnBack.visibility = View. INVISIBLE
+        btnFirstAnswer.visibility = View.VISIBLE
+        btnSecondAnswer.visibility = View.VISIBLE
+        btnThirdAnswer.visibility = View.VISIBLE
+        btnFourthAnswer.visibility = View.VISIBLE
+        tvNumbers.visibility = View.VISIBLE
+        tvTimer.visibility = View.VISIBLE
 
     }
 }
