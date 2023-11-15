@@ -16,5 +16,9 @@
     <string name="medium">Mellan</string>
     <string name="hard">Svår</string>
     <string name="save">Spara</string>
+    <string name="loadInfo">Inläst användare: %1$s, svårighetsgrad %2$s</string>
+    <string name="loadError">Ingen användare funnen</string>
+    <string name="saveMessage">Användare sparad</string>
+    <string name="saveError">Misslyckades att spara användare</string>
 
 </resources>
