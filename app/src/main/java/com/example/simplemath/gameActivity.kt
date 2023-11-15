@@ -170,6 +170,7 @@ class gameActivity : AppCompatActivity() {
     fun stopGame() {
         btnStart.text = "Play again"
         hideAddGameElements()
+
         tvScore.visibility = View.VISIBLE
         tvScore.text = "Din poäng blev $numberOfCorrectAnswers!"
     }
@@ -177,6 +178,7 @@ class gameActivity : AppCompatActivity() {
     fun hideAddGameElements() {
         startLayout.visibility = View.VISIBLE
         gameElement.visibility = View.INVISIBLE
+        tvAnswer.visibility = View.INVISIBLE
 //        btnFirstAnswer.visibility = View.INVISIBLE
 //        btnSecondAnswer.visibility = View.INVISIBLE
 //        btnThirdAnswer.visibility = View.INVISIBLE
@@ -189,6 +191,7 @@ class gameActivity : AppCompatActivity() {
     fun showAllGameElements() {
         startLayout.visibility = View.INVISIBLE
         gameElement.visibility = View.VISIBLE
+
 //        btnFirstAnswer.visibility = View.VISIBLE
 //        btnSecondAnswer.visibility = View.VISIBLE
 //        btnThirdAnswer.visibility = View.VISIBLE
