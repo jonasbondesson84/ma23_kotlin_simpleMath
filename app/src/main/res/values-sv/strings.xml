@@ -1,0 +1,14 @@
+
+<resources>
+    <string name="app_name">Kul med matte!</string>
+    <string name="timeLeft">Tid kvar: %1$s</string>
+    <string name="correct">Rätt!</string>
+    <string name="wrong">Fel!</string>
+    <string name="currentScore">Poäng: %1$s</string>
+    <string name="playAgain">Spela igen</string>
+    <string name="score">Din poäng: %1$s</string>
+    <string name="back">Tillbaka</string>
+    <string name="play">Spela</string>
+    <string name="highScore">Highscore</string>
+
+</resources>
