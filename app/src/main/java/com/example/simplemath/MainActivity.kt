@@ -16,27 +16,42 @@ class MainActivity : AppCompatActivity() {
         val btnSubtraction:ImageButton = findViewById(R.id.imbSubtraction)
         val btnMultiplication: ImageButton = findViewById(R.id.imbMultiplication)
         val btnDivision: ImageButton = findViewById(R.id.imbDivision)
-        val intent = Intent(this, gameActivity::class.java)
+        val btnSettings: ImageButton = findViewById(R.id.imbSettings)
+        val intentGame = Intent(this, gameActivity::class.java)
+        val intentSettings = Intent(this, settingsActivity::class.java)
 
+        val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
 
+        if (!sharedPreferences.contains("Name")) {
+            editor.putString("Name", "Unknown")
+        }
+        if (!sharedPreferences.contains("Difficulty")) {
+            editor.putInt("Difficulty", 1)
+        }
+        editor.apply()
+        
 
         btnAddition.setOnClickListener() {
-            intent.putExtra("method", "addition")
-            startActivity(intent)
+            intentGame.putExtra("method", "addition")
+            startActivity(intentGame)
         }
 
         btnSubtraction.setOnClickListener() {
-            intent.putExtra("method", "subtraction")
-            startActivity(intent)
+            intentGame.putExtra("method", "subtraction")
+            startActivity(intentGame)
         }
 
         btnMultiplication.setOnClickListener() {
-            intent.putExtra("method", "multiplication")
-            startActivity(intent)
+            intentGame.putExtra("method", "multiplication")
+            startActivity(intentGame)
         }
         btnDivision.setOnClickListener() {
-            intent.putExtra("method", "division")
-            startActivity(intent)
+            intentGame.putExtra("method", "division")
+            startActivity(intentGame)
+        }
+        btnSettings.setOnClickListener() {
+            startActivity(intentSettings)
         }
     }
 }

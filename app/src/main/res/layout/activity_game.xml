@@ -102,10 +102,10 @@
 
         <TextView
             android:id="@+id/tvNumber"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="64dp"
             android:fontFamily="@font/frijole"
-            android:text=" 1 + 2 ="
+            android:text="49+49="
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="50sp"
