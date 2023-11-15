@@ -4,75 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    android:background="@color/primary_color"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="240dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop">
+
+        <ImageButton
+            android:id="@+id/imbMultiplication"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_from_rawpixel_id_6819180_png"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imbDivision" />
+
+        <ImageButton
+            android:id="@+id/imbDivision"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            android:background="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_from_rawpixel_id_6819163_png"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imbAddition" />
+
+        <ImageButton
+            android:id="@+id/imbAddition"
+            android:layout_width="104dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="12dp"
+            android:background="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_from_rawpixel_id_6819209_png"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imbSubtraction"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_from_rawpixel_id_6818774_png"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imbAddition" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvTop"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:background="#2196F3"
-        android:fontFamily="sans-serif"
-        android:paddingTop="4dp"
-        android:text="Kul med matte"
+        android:layout_height="40dp"
+        android:layout_marginTop="2sp"
+        android:background="@color/secondary_color"
+        android:fontFamily="@font/frijole"
+        android:text="Kul med matte!"
         android:textAlignment="center"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textStyle="bold"/>
-
-    <ImageButton
-        android:id="@+id/imbAddition"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="200dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_from_rawpixel_id_6819209_png"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imbSubtraction"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="90dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_from_rawpixel_id_6818774_png"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imbAddition" />
-
-    <ImageButton
-        android:id="@+id/imbMultiplication"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_from_rawpixel_id_6819180_png"
-        app:layout_constraintStart_toStartOf="@+id/imbAddition"
-        app:layout_constraintTop_toBottomOf="@+id/imbAddition" />
-
-    <ImageButton
-        android:id="@+id/imbDivision"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_from_rawpixel_id_6819163_png"
-        app:layout_constraintEnd_toEndOf="@+id/imbSubtraction"
-        app:layout_constraintTop_toBottomOf="@+id/imbSubtraction" />
 
     <Button
         android:id="@+id/button"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:background="@color/complementary_color"
+        android:fontFamily="@font/frijole"
         android:text="Highscore"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        android:tint="@color/complementary_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_settings_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
