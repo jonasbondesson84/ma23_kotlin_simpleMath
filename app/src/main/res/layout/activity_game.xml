@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gameActivity">
+
+
+
+    <TextView
+        android:id="@+id/tvTop"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="#2196F3"
+        android:fontFamily="sans-serif"
+        android:paddingTop="4dp"
+        android:text="Kul med matte"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:text=" 1 + 2 ="
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.AppCompat.Button"
+        android:text="START"
+
+        />
+
+    <Button
+        android:id="@+id/btnFirst"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="64dp"
+        android:text="1"
+        app:layout_constraintStart_toStartOf="@+id/btnStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
+
+    <Button
+        android:id="@+id/btnSecond"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:text="2"
+        app:layout_constraintEnd_toEndOf="@+id/btnStart"
+        app:layout_constraintTop_toTopOf="@+id/btnFirst" />
+
+    <Button
+        android:id="@+id/btnThird"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:text="3"
+        app:layout_constraintStart_toStartOf="@+id/btnStart"
+        app:layout_constraintTop_toBottomOf="@+id/btnFirst" />
+
+    <Button
+        android:id="@+id/btnFourth"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:text="4"
+        app:layout_constraintEnd_toEndOf="@+id/btnSecond"
+        app:layout_constraintTop_toTopOf="@+id/btnThird" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Tid kvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop" />
+</androidx.constraintlayout.widget.ConstraintLayout>
