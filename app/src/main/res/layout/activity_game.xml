@@ -7,7 +7,6 @@
     tools:context=".gameActivity">
 
 
-
     <TextView
         android:id="@+id/tvTop"
         android:layout_width="match_parent"
@@ -24,69 +23,6 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tvNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:text=" 1 + 2 ="
-        android:textAlignment="center"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTop" />
-
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/Widget.AppCompat.Button"
-        android:text="START"
-
-        />
-
-    <Button
-        android:id="@+id/btnFirst"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="64dp"
-        android:text="1"
-        app:layout_constraintStart_toStartOf="@+id/btnStart"
-        app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
-
-    <Button
-        android:id="@+id/btnSecond"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:text="2"
-        app:layout_constraintEnd_toEndOf="@+id/btnStart"
-        app:layout_constraintTop_toTopOf="@+id/btnFirst" />
-
-    <Button
-        android:id="@+id/btnThird"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="48dp"
-        android:text="3"
-        app:layout_constraintStart_toStartOf="@+id/btnStart"
-        app:layout_constraintTop_toBottomOf="@+id/btnFirst" />
-
-    <Button
-        android:id="@+id/btnFourth"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:text="4"
-        app:layout_constraintEnd_toEndOf="@+id/btnSecond"
-        app:layout_constraintTop_toTopOf="@+id/btnThird" />
-
-    <TextView
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,24 +32,128 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTop" />
 
-    <Button
-        android:id="@+id/btnBack"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="TILLBAKA"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStart" />
-
-    <TextView
-        android:id="@+id/tvCorrectAnswers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Antal rätt svar: "
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/startLayout"
+        android:layout_width="240dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTop">
+
+        <Button
+            android:id="@+id/btnStart"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="24dp"
+            android:text="START"
+            app:layout_constraintBottom_toTopOf="@+id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnBack"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="TILLBAKA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/gameElements"
+        android:layout_width="240dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTop">
+
+        <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:text=" 1 + 2 ="
+            android:textAlignment="center"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnFirst"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:text="1"
+            app:layout_constraintStart_toStartOf="@+id/tvNumber"
+            app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
+
+        <Button
+            android:id="@+id/btnSecond"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:text="2"
+            app:layout_constraintEnd_toEndOf="@+id/tvNumber"
+            app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
+
+        <Button
+            android:id="@+id/btnThird"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="24dp"
+            android:text="3"
+            app:layout_constraintStart_toStartOf="@+id/btnFirst"
+            app:layout_constraintTop_toBottomOf="@+id/btnFirst" />
+
+        <Button
+            android:id="@+id/btnFourth"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:text="4"
+            app:layout_constraintEnd_toEndOf="@+id/btnSecond"
+            app:layout_constraintTop_toTopOf="@+id/btnThird" />
+
+        <TextView
+            android:id="@+id/tvCorrectAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Antal rätt svar: "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/gameElements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

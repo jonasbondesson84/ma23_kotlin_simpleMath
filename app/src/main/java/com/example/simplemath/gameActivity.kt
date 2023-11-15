@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlin.random.Random
 
 class gameActivity : AppCompatActivity() {
@@ -20,6 +22,10 @@ class gameActivity : AppCompatActivity() {
     lateinit var tvNumbers: TextView
     lateinit var btnBack: Button
     lateinit var tvCorrectAnswers: TextView
+    lateinit var gameElement: ConstraintLayout
+    lateinit var startLayout: ConstraintLayout
+    lateinit var tvScore: TextView
+    lateinit var tvAnswer: TextView
 
     var userAnswer: Int = 0
     var correctAnswer: Int = 0
@@ -42,6 +48,10 @@ class gameActivity : AppCompatActivity() {
         tvNumbers = findViewById(R.id.tvNumber)
         btnBack = findViewById(R.id.btnBack)
         tvCorrectAnswers = findViewById(R.id.tvCorrectAnswers)
+        gameElement = findViewById(R.id.gameElements)
+        startLayout = findViewById(R.id.startLayout)
+        tvScore = findViewById(R.id.tvScore)
+        tvAnswer = findViewById(R.id.tvAnswer)
 
         method = intent.getStringExtra("method") ?: "addition"
 
@@ -77,6 +87,8 @@ class gameActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         hideAddGameElements()
+        tvScore.visibility = View.INVISIBLE
+        tvAnswer.visibility = View.INVISIBLE
     }
 
     fun startGame() {
@@ -143,7 +155,14 @@ class gameActivity : AppCompatActivity() {
     fun checkAnswer() {
         if(userAnswer == correctAnswer) {
             numberOfCorrectAnswers++
+            tvAnswer.text = "Rätt!"
+
+        } else {
+            tvAnswer.text = "Fel."
         }
+        tvAnswer.visibility = View.VISIBLE
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        tvAnswer.startAnimation(animation)
         tvCorrectAnswers.text = "Antal rätt svar: $numberOfCorrectAnswers"
         newMathProblem()
     }
@@ -151,32 +170,32 @@ class gameActivity : AppCompatActivity() {
     fun stopGame() {
         btnStart.text = "Play again"
         hideAddGameElements()
-
-
+        tvScore.visibility = View.VISIBLE
+        tvScore.text = "Din poäng blev $numberOfCorrectAnswers!"
     }
 
     fun hideAddGameElements() {
-        btnStart.visibility = View.VISIBLE
-        btnBack.visibility = View.VISIBLE
-        btnFirstAnswer.visibility = View.INVISIBLE
-        btnSecondAnswer.visibility = View.INVISIBLE
-        btnThirdAnswer.visibility = View.INVISIBLE
-        btnFourthAnswer.visibility = View.INVISIBLE
-        tvNumbers.visibility = View.INVISIBLE
-        tvTimer.visibility = View.INVISIBLE
-        tvCorrectAnswers.visibility = View.INVISIBLE
+        startLayout.visibility = View.VISIBLE
+        gameElement.visibility = View.INVISIBLE
+//        btnFirstAnswer.visibility = View.INVISIBLE
+//        btnSecondAnswer.visibility = View.INVISIBLE
+//        btnThirdAnswer.visibility = View.INVISIBLE
+//        btnFourthAnswer.visibility = View.INVISIBLE
+//        tvNumbers.visibility = View.INVISIBLE
+//        tvTimer.visibility = View.INVISIBLE
+//        tvCorrectAnswers.visibility = View.INVISIBLE
 
     }
     fun showAllGameElements() {
-        btnStart.visibility = View.INVISIBLE
-        btnBack.visibility = View. INVISIBLE
-        btnFirstAnswer.visibility = View.VISIBLE
-        btnSecondAnswer.visibility = View.VISIBLE
-        btnThirdAnswer.visibility = View.VISIBLE
-        btnFourthAnswer.visibility = View.VISIBLE
-        tvNumbers.visibility = View.VISIBLE
-        tvTimer.visibility = View.VISIBLE
-        tvCorrectAnswers.visibility = View.VISIBLE
+        startLayout.visibility = View.INVISIBLE
+        gameElement.visibility = View.VISIBLE
+//        btnFirstAnswer.visibility = View.VISIBLE
+//        btnSecondAnswer.visibility = View.VISIBLE
+//        btnThirdAnswer.visibility = View.VISIBLE
+//        btnFourthAnswer.visibility = View.VISIBLE
+//        tvNumbers.visibility = View.VISIBLE
+//        tvTimer.visibility = View.VISIBLE
+//        tvCorrectAnswers.visibility = View.VISIBLE
 
     }
 }
