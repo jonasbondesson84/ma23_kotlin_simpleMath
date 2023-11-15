@@ -15,6 +15,10 @@
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
     <string name="save">Save</string>
+    <string name="loadInfo">User loaded: %1$s, difficulty %2$s</string>
+    <string name="loadError">No user found</string>
+    <string name="saveMessage">User saved</string>
+    <string name="saveError">Unable to save user</string>
 
 
 </resources>

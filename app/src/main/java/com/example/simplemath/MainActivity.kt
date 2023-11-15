@@ -3,7 +3,10 @@ package com.example.simplemath
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONObject
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +25,29 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+        try {
+            val filePath = this.filesDir.absolutePath + "/user.json"
+            val jsonString = File(filePath).readText()
 
+            val loadedJson = JSONObject(jsonString)
+
+            val name = loadedJson.getString("name")
+            val difficulty = loadedJson.getInt("Difficulty")
+
+
+            val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+
+            editor.putString("Name", name)
+            editor.putInt("Difficulty", difficulty)
+            editor.apply()
+
+            val message = getString(R.string.loadInfo, name, difficulty.toString())
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.loadError), Toast.LENGTH_SHORT).show()
+        }
         if (!sharedPreferences.contains("Name")) {
             editor.putString("Name", "Unknown")
         }
