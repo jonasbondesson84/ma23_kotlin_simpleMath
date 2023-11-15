@@ -10,5 +10,11 @@
     <string name="back">Tillbaka</string>
     <string name="play">Spela</string>
     <string name="highScore">Highscore</string>
+    <string name="name">Namn</string>
+    <string name="difficulty">Svårighetsgrad</string>
+    <string name="easy">Lätt</string>
+    <string name="medium">Mellan</string>
+    <string name="hard">Svår</string>
+    <string name="save">Spara</string>
 
 </resources>

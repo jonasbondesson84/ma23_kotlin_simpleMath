@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import kotlin.math.pow
 import kotlin.random.Random
 
 class gameActivity : AppCompatActivity() {
@@ -33,7 +34,8 @@ class gameActivity : AppCompatActivity() {
     var method: String = ""
     var firstNumber: Int = 0
     var secondNumber: Int = 0
-    val TIMER_SECONDS: Long = 30000
+    val TIMER_SECONDS: Long = 10000
+    var maxNumber: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,11 +93,29 @@ class gameActivity : AppCompatActivity() {
         tvAnswer.visibility = View.INVISIBLE
         tvCorrectAnswers.visibility = View.INVISIBLE
         tvTimer.text = getString(R.string.timeLeft, (TIMER_SECONDS/1000).toString())
+        val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
+        var difficulty = sharedPreferences.getInt("Difficulty", 1)
+        maxNumber = setMaxNumber(difficulty)
+
+    }
+    fun setMaxNumber(difficulty: Int): Int {
+        when(method) {
+            "addition", "subtraction" -> {
+                return ((difficulty + 1) * 5.0.pow((difficulty + 1).toDouble()).toInt())
+            }
+            "multiplication" -> {
+                return ((difficulty + 1) * 5)
+            }
+            else -> {
+                return ((difficulty + 1) * 5)
+            }
+        }
     }
 
     fun startGame() {
         showAllGameElements()
         newMathProblem()
+        tvTimer.visibility = View.VISIBLE
         object : CountDownTimer(TIMER_SECONDS, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
@@ -111,30 +131,31 @@ class gameActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun newMathProblem() {
-        firstNumber = Random.nextInt(1, 10)
-        secondNumber = Random.nextInt(1, 10)
+        firstNumber = Random.nextInt(1, maxNumber)
+        secondNumber = Random.nextInt(1, maxNumber)
 
         when(method) {
             "subtraction" -> {
+                firstNumber = Random.nextInt(2, maxNumber)
+                secondNumber = Random.nextInt(1, firstNumber)
                 correctAnswer = firstNumber - secondNumber
-                tvNumbers.text = " $firstNumber - $secondNumber ="
+                tvNumbers.text = "$firstNumber-$secondNumber="
             }
             "multiplication" -> {
                 correctAnswer = firstNumber * secondNumber
-                tvNumbers.text = " $firstNumber * $secondNumber ="
+                tvNumbers.text = "$firstNumber*$secondNumber="
             }
             "division" -> {
-                while (firstNumber % secondNumber != 0) {
-                    firstNumber = Random.nextInt(1, 20)
-                    secondNumber = Random.nextInt(2, 10)
+                while (firstNumber % secondNumber != 0 || (firstNumber / secondNumber) > 10) {
+                    firstNumber = Random.nextInt(1, maxNumber*4)
+                    secondNumber = Random.nextInt(2, maxNumber)
                 }
                 correctAnswer = firstNumber / secondNumber
-
-                tvNumbers.text = " $firstNumber / $secondNumber ="
+                tvNumbers.text = "$firstNumber/$secondNumber="
             }
             else -> {
                 correctAnswer = firstNumber + secondNumber
-                tvNumbers.text = " $firstNumber + $secondNumber ="
+                tvNumbers.text = "$firstNumber+$secondNumber="
             }
         }
         setAnswers()

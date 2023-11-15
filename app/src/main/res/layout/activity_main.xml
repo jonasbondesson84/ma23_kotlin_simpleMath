@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="240dp"
         android:layout_height="300dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnHighScore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTop">
@@ -22,7 +22,7 @@
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
             android:src="@drawable/image_from_rawpixel_id_6819180_png"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imbDivision" />
 
         <ImageButton
@@ -33,7 +33,7 @@
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
             android:src="@drawable/image_from_rawpixel_id_6819163_png"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imbAddition" />
 
         <ImageButton
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnHighScore"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
@@ -88,12 +88,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imSettings"
+    <ImageButton
+        android:id="@+id/imbSettings"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
         app:tint="@color/complementary_color"
-        android:tintMode="src_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_settings_24" />

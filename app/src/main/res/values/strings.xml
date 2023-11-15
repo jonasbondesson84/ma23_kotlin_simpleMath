@@ -9,6 +9,12 @@
     <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="highScore">Highscore</string>
+    <string name="name">Name</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="save">Save</string>
 
 
 </resources>
