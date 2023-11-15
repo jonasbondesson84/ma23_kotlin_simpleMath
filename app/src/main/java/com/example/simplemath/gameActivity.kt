@@ -89,6 +89,8 @@ class gameActivity : AppCompatActivity() {
         hideAddGameElements()
         tvScore.visibility = View.INVISIBLE
         tvAnswer.visibility = View.INVISIBLE
+        tvCorrectAnswers.visibility = View.INVISIBLE
+        tvTimer.text = getString(R.string.timeLeft, (TIMER_SECONDS/1000).toString())
     }
 
     fun startGame() {
@@ -97,11 +99,11 @@ class gameActivity : AppCompatActivity() {
         object : CountDownTimer(TIMER_SECONDS, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                tvTimer.setText("Tid kvar: " + millisUntilFinished / 1000)
+                tvTimer.setText(getString(R.string.timeLeft, (millisUntilFinished / 1000).toString()))
             }
 
             override fun onFinish() {
-                tvTimer.setText("Slut!")
+                tvTimer.visibility = View.INVISIBLE
                 stopGame()
             }
         }.start()
@@ -155,24 +157,25 @@ class gameActivity : AppCompatActivity() {
     fun checkAnswer() {
         if(userAnswer == correctAnswer) {
             numberOfCorrectAnswers++
-            tvAnswer.text = "Rätt!"
+            tvAnswer.text = getString(R.string.correct)
+            tvCorrectAnswers.visibility = View.VISIBLE
 
         } else {
-            tvAnswer.text = "Fel."
+            tvAnswer.text = getString(R.string.wrong)
         }
         tvAnswer.visibility = View.VISIBLE
         val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         tvAnswer.startAnimation(animation)
-        tvCorrectAnswers.text = "Antal rätt svar: $numberOfCorrectAnswers"
+        tvCorrectAnswers.text = getString(R.string.currentScore,numberOfCorrectAnswers.toString())
         newMathProblem()
     }
 
     fun stopGame() {
-        btnStart.text = "Play again"
+        btnStart.text = getString(R.string.playAgain)
         hideAddGameElements()
 
         tvScore.visibility = View.VISIBLE
-        tvScore.text = "Din poäng blev $numberOfCorrectAnswers!"
+        tvScore.text = getString(R.string.score, numberOfCorrectAnswers.toString())//"Din poäng blev $numberOfCorrectAnswers!"
     }
 
     fun hideAddGameElements() {

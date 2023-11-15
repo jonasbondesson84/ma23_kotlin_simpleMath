@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">simpleMath</string>
+    <string name="app_name">Fun with Math!</string>
+    <string name="timeLeft">Time Left: %1$s</string>
+    <string name="correct">Correct!</string>
+    <string name="wrong">Wrong!</string>
+    <string name="currentScore">Score: %1$s</string>
+    <string name="playAgain">Play again</string>
+    <string name="score">Your score: %1$s</string>
+    <string name="back">Back</string>
+    <string name="play">Play</string>
+    <string name="highScore">Highscore</string>
+
+
 </resources>

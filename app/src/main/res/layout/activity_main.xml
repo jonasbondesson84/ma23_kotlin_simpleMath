@@ -65,7 +65,7 @@
         android:layout_marginTop="2sp"
         android:background="@color/secondary_color"
         android:fontFamily="@font/frijole"
-        android:text="Kul med matte!"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -82,19 +82,18 @@
         android:layout_marginBottom="32dp"
         android:background="@color/complementary_color"
         android:fontFamily="@font/frijole"
-        android:text="Highscore"
+        android:text="@string/highScore"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <ImageView
+        android:id="@+id/imSettings"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        android:tint="@color/complementary_color"
+        app:tint="@color/complementary_color"
+        android:tintMode="src_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_settings_24" />
