@@ -3,12 +3,18 @@ package com.example.simplemath
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.postDelayed
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 import kotlin.math.pow
 import kotlin.random.Random
 
@@ -34,8 +40,11 @@ class gameActivity : AppCompatActivity() {
     var method: String = ""
     var firstNumber: Int = 0
     var secondNumber: Int = 0
-    val TIMER_SECONDS: Long = 10000
+    val TIMER_SECONDS: Long = 30000
     var maxNumber: Int = 0
+    var highScore = mutableListOf<HighScoreUser>()
+    var currentUser: String? = ""
+    var haveAnswered: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +57,7 @@ class gameActivity : AppCompatActivity() {
         btnThirdAnswer = findViewById(R.id.btnThird)
         btnFourthAnswer = findViewById(R.id.btnFourth)
         tvNumbers = findViewById(R.id.tvNumber)
-        btnBack = findViewById(R.id.btnBack)
+        btnBack = findViewById(R.id.btnBackHighScore)
         tvCorrectAnswers = findViewById(R.id.tvCorrectAnswers)
         gameElement = findViewById(R.id.gameElements)
         startLayout = findViewById(R.id.startLayout)
@@ -68,20 +77,28 @@ class gameActivity : AppCompatActivity() {
 
         btnFirstAnswer.setOnClickListener() {
             userAnswer = btnFirstAnswer.text.toString().toInt()
-            checkAnswer()
+            if(!haveAnswered) {
+                checkAnswer()
+            }
         }
         btnSecondAnswer.setOnClickListener() {
             userAnswer = btnSecondAnswer.text.toString().toInt()
-            checkAnswer()
+            if(!haveAnswered) {
+                checkAnswer()
+            }
         }
         btnThirdAnswer.setOnClickListener() {
             userAnswer = btnThirdAnswer.text.toString().toInt()
-            checkAnswer()
+            if(!haveAnswered) {
+                checkAnswer()
+            }
         }
 
         btnFourthAnswer.setOnClickListener() {
             userAnswer = btnFourthAnswer.text.toString().toInt()
-            checkAnswer()
+            if(!haveAnswered) {
+                checkAnswer()
+            }
         }
 
 
@@ -95,6 +112,7 @@ class gameActivity : AppCompatActivity() {
         tvTimer.text = getString(R.string.timeLeft, (TIMER_SECONDS/1000).toString())
         val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
         var difficulty = sharedPreferences.getInt("Difficulty", 1)
+        currentUser = sharedPreferences.getString("Name", "Unknown")
         maxNumber = setMaxNumber(difficulty)
 
     }
@@ -176,6 +194,7 @@ class gameActivity : AppCompatActivity() {
     }
 
     fun checkAnswer() {
+        haveAnswered = true
         if(userAnswer == correctAnswer) {
             numberOfCorrectAnswers++
             tvAnswer.text = getString(R.string.correct)
@@ -188,7 +207,17 @@ class gameActivity : AppCompatActivity() {
         val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         tvAnswer.startAnimation(animation)
         tvCorrectAnswers.text = getString(R.string.currentScore,numberOfCorrectAnswers.toString())
-        newMathProblem()
+        showRightAnswer()
+        Handler().postDelayed(1000) {
+            btnFirstAnswer.visibility = View.VISIBLE
+            btnSecondAnswer.visibility = View.VISIBLE
+            btnThirdAnswer.visibility = View.VISIBLE
+            btnFourthAnswer.visibility = View.VISIBLE
+            newMathProblem()
+            tvAnswer.visibility = View.INVISIBLE
+            haveAnswered = false
+
+        }
     }
 
     fun stopGame() {
@@ -196,33 +225,97 @@ class gameActivity : AppCompatActivity() {
         hideAddGameElements()
 
         tvScore.visibility = View.VISIBLE
-        tvScore.text = getString(R.string.score, numberOfCorrectAnswers.toString())//"Din poäng blev $numberOfCorrectAnswers!"
+        tvScore.text = getString(R.string.score, numberOfCorrectAnswers.toString())
+        loadHighScore()
+        highScore.add(HighScoreUser(currentUser ?: "Unknown", numberOfCorrectAnswers))
+        highScore.sortWith(compareByDescending { it.score })
+        saveHighScore()
+
+    }
+
+    fun showRightAnswer() {
+        when(correctAnswer) {
+            btnFirstAnswer.text.toString().toInt() -> {
+                btnFirstAnswer.visibility = View.VISIBLE
+                btnSecondAnswer.visibility = View.INVISIBLE
+                btnThirdAnswer.visibility = View.INVISIBLE
+                btnFourthAnswer.visibility = View.INVISIBLE
+            }
+            btnSecondAnswer.text.toString().toInt() -> {
+                btnFirstAnswer.visibility = View.INVISIBLE
+                btnSecondAnswer.visibility = View.VISIBLE
+                btnThirdAnswer.visibility = View.INVISIBLE
+                btnFourthAnswer.visibility = View.INVISIBLE
+            }
+            btnThirdAnswer.text.toString().toInt() -> {
+                btnFirstAnswer.visibility = View.INVISIBLE
+                btnSecondAnswer.visibility = View.INVISIBLE
+                btnThirdAnswer.visibility = View.VISIBLE
+                btnFourthAnswer.visibility = View.INVISIBLE
+            }
+            btnFourthAnswer.text.toString().toInt() -> {
+                btnFirstAnswer.visibility = View.INVISIBLE
+                btnSecondAnswer.visibility = View.INVISIBLE
+                btnThirdAnswer.visibility = View.INVISIBLE
+                btnFourthAnswer.visibility = View.VISIBLE
+            }
+
+        }
+    }
+
+    fun saveHighScore() {
+
+
+        val jsonArray = JSONArray()
+
+        highScore.forEach { highScoreUser ->
+            val highScoreJSON = JSONObject()
+            highScoreJSON.put("name", highScoreUser.name)
+            highScoreJSON.put("score", highScoreUser.score)
+
+
+            jsonArray.put(highScoreJSON)
+        }
+
+        try {
+            val filePath = this.filesDir.absolutePath + "/highscore.json"
+            File(filePath).writeText(jsonArray.toString())
+            Toast.makeText(this, "Det funkade. Filen sparades här: $filePath", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Det funkade ej. Fel: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    fun loadHighScore() {
+        try {
+            val filePath = this.filesDir.absolutePath + "/highscore.json"
+            val jsonString = File(filePath).readText()
+            val jsonArray = JSONArray(jsonString)
+
+            for (i in 0 until jsonArray.length()) {
+                val highscoreJson = jsonArray.getJSONObject(i)
+                val name = highscoreJson.getString("name")
+                val score = highscoreJson.getInt("score")
+
+
+                highScore.add(HighScoreUser(name, score))
+            }
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Det gick inte att läsa in filen. Fel: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     fun hideAddGameElements() {
         startLayout.visibility = View.VISIBLE
         gameElement.visibility = View.INVISIBLE
         tvAnswer.visibility = View.INVISIBLE
-//        btnFirstAnswer.visibility = View.INVISIBLE
-//        btnSecondAnswer.visibility = View.INVISIBLE
-//        btnThirdAnswer.visibility = View.INVISIBLE
-//        btnFourthAnswer.visibility = View.INVISIBLE
-//        tvNumbers.visibility = View.INVISIBLE
-//        tvTimer.visibility = View.INVISIBLE
-//        tvCorrectAnswers.visibility = View.INVISIBLE
 
     }
     fun showAllGameElements() {
         startLayout.visibility = View.INVISIBLE
         gameElement.visibility = View.VISIBLE
-
-//        btnFirstAnswer.visibility = View.VISIBLE
-//        btnSecondAnswer.visibility = View.VISIBLE
-//        btnThirdAnswer.visibility = View.VISIBLE
-//        btnFourthAnswer.visibility = View.VISIBLE
-//        tvNumbers.visibility = View.VISIBLE
-//        tvTimer.visibility = View.VISIBLE
-//        tvCorrectAnswers.visibility = View.VISIBLE
 
     }
 }

@@ -14,8 +14,6 @@ class settingsActivity : AppCompatActivity() {
 
     lateinit var edtName: EditText
     lateinit var rgDifficulty: RadioGroup
-    //lateinit var sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
-    //val editor = sharedPreferences.edit()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
