@@ -6,8 +6,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONObject
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,44 +25,24 @@ class MainActivity : AppCompatActivity() {
         val intentSettings = Intent(this, settingsActivity::class.java)
         val intentHighScore = Intent(this, highScoreActivity::class.java)
 
-        val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("userSharedPref", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
-        try {
-            val filePath = this.filesDir.absolutePath + "/user.json"
-            val jsonString = File(filePath).readText()
-
-            val loadedJson = JSONObject(jsonString)
-
-            val name = loadedJson.getString("name")
-            val difficulty = loadedJson.getInt("Difficulty")
-
-
-            val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-
-            editor.putString("Name", name)
-            editor.putInt("Difficulty", difficulty)
-            editor.apply()
-
-            val message = getString(R.string.loadInfo, name, difficulty.toString())
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-
-        } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.loadError), Toast.LENGTH_SHORT).show()
-        }
-        if (!sharedPreferences.contains("Name")) {
+        //If there isn't any user saved, you get username Unknown and difficulty 1
+        if (!sharedPreferences.contains("Name") || !sharedPreferences.contains("Difficulty")) {
             editor.putString("Name", "Unknown")
-        }
-        if (!sharedPreferences.contains("Difficulty")) {
             editor.putInt("Difficulty", 1)
+            editor.apply()
         }
-        editor.apply()
+
+        val difficultyName: String = getDifficultyName(sharedPreferences.getInt("Difficulty", 0))
+
+        val message = getString(R.string.loadInfo, sharedPreferences.getString("Name", "Unknown"), difficultyName)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
         btnHighScore.setOnClickListener() {
             startActivity(intentHighScore)
         }
-        
 
         btnAddition.setOnClickListener() {
             intentGame.putExtra("method", "addition")
@@ -86,6 +64,20 @@ class MainActivity : AppCompatActivity() {
         }
         btnSettings.setOnClickListener() {
             startActivity(intentSettings)
+        }
+    }
+
+    fun getDifficultyName(difficultyNumber: Int):String {
+        when(difficultyNumber) {
+            0 -> {
+                return getString(R.string.easy)
+            }
+            1 -> {
+                return getString(R.string.medium)
+            }
+            else -> {
+                return getString(R.string.hard)
+            }
         }
     }
 }

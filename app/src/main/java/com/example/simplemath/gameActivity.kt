@@ -45,6 +45,7 @@ class gameActivity : AppCompatActivity() {
     var highScore = mutableListOf<HighScoreUser>()
     var currentUser: String? = ""
     var haveAnswered: Boolean = false
+    var difficulty: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +68,9 @@ class gameActivity : AppCompatActivity() {
         method = intent.getStringExtra("method") ?: "addition"
 
         btnStart.setOnClickListener() {
+            tvCorrectAnswers.visibility = View.INVISIBLE
+            numberOfCorrectAnswers = 0
             startGame()
-
         }
 
         btnBack.setOnClickListener() {
@@ -105,18 +107,23 @@ class gameActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+
         hideAddGameElements()
         tvScore.visibility = View.INVISIBLE
         tvAnswer.visibility = View.INVISIBLE
         tvCorrectAnswers.visibility = View.INVISIBLE
         tvTimer.text = getString(R.string.timeLeft, (TIMER_SECONDS/1000).toString())
-        val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
-        var difficulty = sharedPreferences.getInt("Difficulty", 1)
+
+        //Get difficulty level
+        val sharedPreferences = getSharedPreferences("userSharedPref", MODE_PRIVATE)
+        difficulty = sharedPreferences.getInt("Difficulty", 1)
         currentUser = sharedPreferences.getString("Name", "Unknown")
+
+        //sets max number for math problems
         maxNumber = setMaxNumber(difficulty)
 
     }
-    fun setMaxNumber(difficulty: Int): Int {
+    fun setMaxNumber(difficulty: Int): Int {  //Set maxNumber depending on difficulty
         when(method) {
             "addition", "subtraction" -> {
                 return ((difficulty + 1) * 5.0.pow((difficulty + 1).toDouble()).toInt())
@@ -134,15 +141,14 @@ class gameActivity : AppCompatActivity() {
         showAllGameElements()
         newMathProblem()
         tvTimer.visibility = View.VISIBLE
+        //Shows time left
         object : CountDownTimer(TIMER_SECONDS, 1000) {
-
             override fun onTick(millisUntilFinished: Long) {
                 tvTimer.setText(getString(R.string.timeLeft, (millisUntilFinished / 1000).toString()))
             }
-
             override fun onFinish() {
                 tvTimer.visibility = View.INVISIBLE
-                stopGame()
+                stopGame()  //When time stop, game stops
             }
         }.start()
     }
@@ -194,18 +200,20 @@ class gameActivity : AppCompatActivity() {
     }
 
     fun checkAnswer() {
-        haveAnswered = true
+        haveAnswered = true  //Makes sure you cant answer many times on the same question
         if(userAnswer == correctAnswer) {
             numberOfCorrectAnswers++
             tvAnswer.text = getString(R.string.correct)
             tvCorrectAnswers.visibility = View.VISIBLE
-
         } else {
             tvAnswer.text = getString(R.string.wrong)
         }
+        //Animates correct/wrong message
         tvAnswer.visibility = View.VISIBLE
         val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         tvAnswer.startAnimation(animation)
+
+        //show current score
         tvCorrectAnswers.text = getString(R.string.currentScore,numberOfCorrectAnswers.toString())
         showRightAnswer()
         Handler().postDelayed(1000) {
@@ -224,10 +232,11 @@ class gameActivity : AppCompatActivity() {
         btnStart.text = getString(R.string.playAgain)
         hideAddGameElements()
 
+        //Shows total score
         tvScore.visibility = View.VISIBLE
         tvScore.text = getString(R.string.score, numberOfCorrectAnswers.toString())
         loadHighScore()
-        highScore.add(HighScoreUser(currentUser ?: "Unknown", numberOfCorrectAnswers))
+        highScore.add(HighScoreUser(currentUser ?: "Unknown", numberOfCorrectAnswers, difficulty, method))
         highScore.sortWith(compareByDescending { it.score })
         saveHighScore()
 
@@ -265,15 +274,14 @@ class gameActivity : AppCompatActivity() {
 
     fun saveHighScore() {
 
-
         val jsonArray = JSONArray()
 
-        highScore.forEach { highScoreUser ->
+        highScore.forEach { highScoreUser ->  //Sets all items in mutableListOf to jsonArray
             val highScoreJSON = JSONObject()
             highScoreJSON.put("name", highScoreUser.name)
             highScoreJSON.put("score", highScoreUser.score)
-
-
+            highScoreJSON.put("difficulty", highScoreUser.difficulty)
+            highScoreJSON.put("method", highScoreUser.method)
             jsonArray.put(highScoreJSON)
         }
 
@@ -296,9 +304,10 @@ class gameActivity : AppCompatActivity() {
                 val highscoreJson = jsonArray.getJSONObject(i)
                 val name = highscoreJson.getString("name")
                 val score = highscoreJson.getInt("score")
+                val difficulty = highscoreJson.getInt("difficulty")
+                val method = highscoreJson.getString("method")
 
-
-                highScore.add(HighScoreUser(name, score))
+                highScore.add(HighScoreUser(name, score, difficulty, method))
             }
 
         } catch (e: Exception) {

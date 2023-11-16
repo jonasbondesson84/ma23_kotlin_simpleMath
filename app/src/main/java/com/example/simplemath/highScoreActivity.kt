@@ -14,10 +14,6 @@ class highScoreActivity : AppCompatActivity() {
         val btnBack: Button = findViewById(R.id.btnBackHighScore)
         val rvHighScore: RecyclerView = findViewById(R.id.rvHighScore)
 
-
-
-
-
         btnBack.setOnClickListener() {
             finish()
         }
