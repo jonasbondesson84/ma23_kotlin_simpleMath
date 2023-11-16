@@ -2,6 +2,7 @@ package com.example.simplemath
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,11 +21,15 @@ class MainActivity : AppCompatActivity() {
         val btnMultiplication: ImageButton = findViewById(R.id.imbMultiplication)
         val btnDivision: ImageButton = findViewById(R.id.imbDivision)
         val btnSettings: ImageButton = findViewById(R.id.imbSettings)
+        val btnHighScore: Button = findViewById(R.id.btnHighScore)
+
         val intentGame = Intent(this, gameActivity::class.java)
         val intentSettings = Intent(this, settingsActivity::class.java)
+        val intentHighScore = Intent(this, highScoreActivity::class.java)
 
         val sharedPreferences = getSharedPreferences("minSharedPref", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+
         try {
             val filePath = this.filesDir.absolutePath + "/user.json"
             val jsonString = File(filePath).readText()
@@ -55,6 +60,10 @@ class MainActivity : AppCompatActivity() {
             editor.putInt("Difficulty", 1)
         }
         editor.apply()
+
+        btnHighScore.setOnClickListener() {
+            startActivity(intentHighScore)
+        }
         
 
         btnAddition.setOnClickListener() {
