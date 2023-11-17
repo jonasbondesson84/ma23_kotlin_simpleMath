@@ -3,7 +3,7 @@ package com.example.simplemath
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -11,10 +11,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.os.postDelayed
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import java.time.LocalDate
 import kotlin.math.pow
 import kotlin.random.Random
 
@@ -40,12 +46,14 @@ class gameActivity : AppCompatActivity() {
     var method: String = ""
     var firstNumber: Int = 0
     var secondNumber: Int = 0
-    val TIMER_SECONDS: Long = 30000
+    val TIMER_SECONDS: Long = 5000
     var maxNumber: Int = 0
     var highScore = mutableListOf<HighScoreUser>()
     var currentUser: String? = ""
     var haveAnswered: Boolean = false
     var difficulty: Int = 0
+    var date: String = ""
+    val myScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,6 +130,11 @@ class gameActivity : AppCompatActivity() {
         //sets max number for math problems
         maxNumber = setMaxNumber(difficulty)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myScope.cancel()
     }
     fun setMaxNumber(difficulty: Int): Int {  //Set maxNumber depending on difficulty
         when(method) {
@@ -216,15 +229,17 @@ class gameActivity : AppCompatActivity() {
         //show current score
         tvCorrectAnswers.text = getString(R.string.currentScore,numberOfCorrectAnswers.toString())
         showRightAnswer()
-        Handler().postDelayed(1000) {
-            btnFirstAnswer.visibility = View.VISIBLE
-            btnSecondAnswer.visibility = View.VISIBLE
-            btnThirdAnswer.visibility = View.VISIBLE
-            btnFourthAnswer.visibility = View.VISIBLE
-            newMathProblem()
-            tvAnswer.visibility = View.INVISIBLE
-            haveAnswered = false
-
+        myScope.launch {
+            withContext(Dispatchers.Main) {
+                delay(1000L)
+                btnFirstAnswer.visibility = View.VISIBLE
+                btnSecondAnswer.visibility = View.VISIBLE
+                btnThirdAnswer.visibility = View.VISIBLE
+                btnFourthAnswer.visibility = View.VISIBLE
+                newMathProblem()
+                tvAnswer.visibility = View.INVISIBLE
+                haveAnswered = false
+            }
         }
     }
 
@@ -234,9 +249,11 @@ class gameActivity : AppCompatActivity() {
 
         //Shows total score
         tvScore.visibility = View.VISIBLE
-        tvScore.text = getString(R.string.score, numberOfCorrectAnswers.toString())
+        tvScore.text = getString(R.string.totalScore, numberOfCorrectAnswers.toString())
         loadHighScore()
-        highScore.add(HighScoreUser(currentUser ?: "Unknown", numberOfCorrectAnswers, difficulty, method))
+        date = LocalDate.now().toString()
+        highScore.add(HighScoreUser(currentUser ?: "Unknown", numberOfCorrectAnswers, difficulty, method, date))
+        Log.d("!!!", currentUser + numberOfCorrectAnswers + difficulty + method + date)
         highScore.sortWith(compareByDescending { it.score })
         saveHighScore()
 
@@ -275,19 +292,20 @@ class gameActivity : AppCompatActivity() {
     fun saveHighScore() {
 
         val jsonArray = JSONArray()
-
-        highScore.forEach { highScoreUser ->  //Sets all items in mutableListOf to jsonArray
+        val lastEntryID = highScore.size-1
+          //Sets to jsonObject
             val highScoreJSON = JSONObject()
-            highScoreJSON.put("name", highScoreUser.name)
-            highScoreJSON.put("score", highScoreUser.score)
-            highScoreJSON.put("difficulty", highScoreUser.difficulty)
-            highScoreJSON.put("method", highScoreUser.method)
-            jsonArray.put(highScoreJSON)
-        }
+            highScoreJSON.put("name", currentUser)
+            highScoreJSON.put("score", numberOfCorrectAnswers)
+            highScoreJSON.put("difficulty", difficulty)
+            highScoreJSON.put("method", method)
+            highScoreJSON.put("date", date)
+            Log.d("!!!", highScoreJSON.toString())
+
 
         try {
             val filePath = this.filesDir.absolutePath + "/highscore.json"
-            File(filePath).writeText(jsonArray.toString())
+            File(filePath).appendText(highScoreJSON.toString()) //Prints at end of text in file
             Toast.makeText(this, "Det funkade. Filen sparades här: $filePath", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(this, "Det funkade ej. Fel: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -306,14 +324,15 @@ class gameActivity : AppCompatActivity() {
                 val score = highscoreJson.getInt("score")
                 val difficulty = highscoreJson.getInt("difficulty")
                 val method = highscoreJson.getString("method")
+                val date = highscoreJson.getString("date")
 
-                highScore.add(HighScoreUser(name, score, difficulty, method))
+
+                highScore.add(HighScoreUser(name, score, difficulty, method, date))
             }
 
         } catch (e: Exception) {
             Toast.makeText(this, "Det gick inte att läsa in filen. Fel: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     fun hideAddGameElements() {
