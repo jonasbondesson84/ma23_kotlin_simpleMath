@@ -32,7 +32,6 @@ class settingsActivity : AppCompatActivity() {
         super.onResume()
         //Gets what info is saved in sharedPreferences
          val sharedPreferences = getSharedPreferences("userSharedPref", MODE_PRIVATE)
-       // val editor = sharedPreferences.edit()
         var name = sharedPreferences.getString("Name", "Unknown")
         var difficulty: Int = sharedPreferences.getInt("Difficulty", 0)
         val checkedButton: RadioButton = rgDifficulty.getChildAt(difficulty) as RadioButton

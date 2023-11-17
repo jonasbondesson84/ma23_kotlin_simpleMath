@@ -5,7 +5,7 @@
     <string name="wrong">Wrong!</string>
     <string name="currentScore">Score: %1$s</string>
     <string name="playAgain">Play again</string>
-    <string name="score">Your score: %1$s</string>
+    <string name="totalScore">Your score: %1$s</string>
     <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="highScore">Highscore</string>
@@ -19,6 +19,9 @@
     <string name="loadError">No user found</string>
     <string name="saveMessage">User saved</string>
     <string name="saveError">Unable to save user</string>
+    <string name="score">Score</string>
+    <string name="method">Method</string>
+    <string name="date">Date</string>
 
 
 </resources>

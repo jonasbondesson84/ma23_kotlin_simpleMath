@@ -6,7 +6,7 @@
     <string name="wrong">Fel!</string>
     <string name="currentScore">Poäng: %1$s</string>
     <string name="playAgain">Spela igen</string>
-    <string name="score">Din poäng: %1$s</string>
+    <string name="totalScore">Din poäng: %1$s</string>
     <string name="back">Tillbaka</string>
     <string name="play">Spela</string>
     <string name="highScore">Highscore</string>
@@ -20,5 +20,8 @@
     <string name="loadError">Ingen användare funnen</string>
     <string name="saveMessage">Användare sparad</string>
     <string name="saveError">Misslyckades att spara användare</string>
+    <string name="score">Poäng</string>
+    <string name="method">Räknesätt</string>
+    <string name="date">Datum</string>
 
 </resources>
